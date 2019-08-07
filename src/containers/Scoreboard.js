@@ -19,7 +19,7 @@ const Scoreboard = () => {
 
     return (
         <div>
-            <Typography variant='h2'>Thrones Bitch 2019 Season V2</Typography>
+            <Typography variant='h2'>Thrones 2019 Season 1</Typography>
 			<Paper className={classes.root}>
 				<Table className={classes.table}>
 					<TableHead>
