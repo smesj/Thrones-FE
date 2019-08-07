@@ -19,7 +19,7 @@ function App() {
 
 	return (
 		<div className={classes.app}>
-			<Typography variant='h2'>Thrones Bitch 2019 Season</Typography>
+			<Typography variant='h2'>Thrones Bitch 2019 Season V2</Typography>
 			<Paper className={classes.root}>
 				<Table className={classes.table}>
 					<TableHead>
