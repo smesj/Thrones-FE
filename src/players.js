@@ -8,48 +8,56 @@ const players =
       "totalPoints": 0,
       "factions": [
           {
+              "icon": "stark.PNG",
               "faction": "Stark",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "arryn.PNG",
               "faction": "Arryn",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "baratheon.PNG",
               "faction": "Baratheon",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "martel.PNG",
               "faction": "Martel",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "tyrell.PNG",
               "faction": "Tryell",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "lannister.PNG",
               "faction": "Lannister",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "greyjoy.PNG",
               "faction": "Greyjoy",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "targ.PNG",
               "faction": "Targaryen",
               "gamesPlayed": 0,
               "points": 0,
@@ -65,48 +73,56 @@ const players =
       "totalPoints": 0,
           "factions": [
           {
+              "icon": "stark.PNG",
               "faction": "Stark",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "arryn.PNG",
               "faction": "Arryn",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "baratheon.PNG",
               "faction": "Baratheon",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "martel.PNG",
               "faction": "Martel",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "tyrell.PNG",
               "faction": "Tryell",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "lannister.PNG",
               "faction": "Lannister",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "greyjoy.PNG",
               "faction": "Greyjoy",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "targ.PNG",
               "faction": "Targaryen",
               "gamesPlayed": 0,
               "points": 0,
@@ -122,48 +138,56 @@ const players =
       "totalPoints": 0,
           "factions": [
           {
+              "icon": "stark.PNG",
               "faction": "Stark",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "arryn.PNG",
               "faction": "Arryn",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "baratheon.PNG",
               "faction": "Baratheon",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "martel.PNG",
               "faction": "Martel",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "tyrell.PNG",
               "faction": "Tryell",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "lannister.PNG",
               "faction": "Lannister",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "greyjoy.PNG",
               "faction": "Greyjoy",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "targ.PNG",
               "faction": "Targaryen",
               "gamesPlayed": 0,
               "points": 0,
@@ -179,48 +203,56 @@ const players =
       "totalPoints": 0,
           "factions": [
           {
+              "icon": "stark.PNG",
               "faction": "Stark",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "arryn.PNG",
               "faction": "Arryn",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "baratheon.PNG",
               "faction": "Baratheon",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "martel.PNG",
               "faction": "Martel",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "tyrell.PNG",
               "faction": "Tryell",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "lannister.PNG",
               "faction": "Lannister",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "greyjoy.PNG",
               "faction": "Greyjoy",
               "gamesPlayed": 0,
               "points": 0,
               "wins":0
           },
           {
+              "icon": "targ.PNG",
               "faction": "Targaryen",
               "gamesPlayed": 0,
               "points": 0,
