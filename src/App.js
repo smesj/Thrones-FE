@@ -24,8 +24,8 @@ function App() {
 				<Table className={classes.table}>
 					<TableHead>
 					<TableRow>
-						<TableCell align="right">Player</TableCell>
-						<TableCell align="right">Factions</TableCell>
+						<TableCell align="left">Player</TableCell>
+						<TableCell align="center">Factions</TableCell>
 						<TableCell align="right">Games Played</TableCell>
 						<TableCell align="right">Total Points</TableCell>
 						<TableCell align="right">Points Per Game</TableCell>
