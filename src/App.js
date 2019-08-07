@@ -1,17 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Players from './players.js';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { NavLink, Route, BrowserRouter } from 'react-router-dom'
+import Scoreboard from './containers/Scoreboard.js';
+import ScoreboardIcon from '@material-ui/icons/Dashboard';
+
+// eslint-disable-next-line react/display-name
+const NavRef = React.forwardRef((props, ref) => <div ref={ref}><NavLink {...props}/></div>);
 
 function App() {
 
@@ -19,86 +18,63 @@ function App() {
 
 	return (
 		<div className={classes.app}>
-			<Typography variant='h2'>Thrones Bitch 2019 Season V2</Typography>
-			<Paper className={classes.root}>
-				<Table className={classes.table}>
-					<TableHead>
-					<TableRow>
-						<TableCell align="left">Player</TableCell>
-						<TableCell align="center">Factions</TableCell>
-						<TableCell align="right">Games Played</TableCell>
-						<TableCell align="right">Total Points</TableCell>
-						<TableCell align="right">Points Per Game</TableCell>
-					</TableRow>
-					</TableHead>
-					<TableBody>
-					{Players.map((player, i) => (
-						<TableRow key={player.firstName}>
-						<TableCell component="th" scope="row">
-							{player.firstName}
-						</TableCell>
-						<TableCell align="center">
-						<ExpansionPanel>
-							<ExpansionPanelSummary
-							expandIcon={<ExpandMoreIcon />}
-							>
-								<Typography className={classes.heading}>Faction stats</Typography>
-							</ExpansionPanelSummary>
-							<ExpansionPanelDetails>
-								<Table>
-									<TableHead>
-										<TableRow>
-											<TableCell>Faction</TableCell>
-											<TableCell>Games Played</TableCell>
-											<TableCell>Points</TableCell>
-											<TableCell>Wins</TableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-									{player.factions.map((faction, i) => (
-									<TableRow key={i}>
-											<TableCell>{faction.faction}</TableCell>
-											<TableCell>{faction.gamesPlayed}</TableCell>
-											<TableCell>{faction.points}</TableCell>
-											<TableCell>{faction.wins}</TableCell>
-										</TableRow>
-										))}
-									</TableBody>
-								</Table>
-							</ExpansionPanelDetails>
-						</ExpansionPanel>
-						</TableCell>
-						<TableCell align="right">{player.gamesPlayed}</TableCell>
-						<TableCell align="right">{player.totalPoints}</TableCell>
-						<TableCell align="right">{isNaN(player.totalPoints / player.gamesPlayed) ? 0 : player.totalPoints / player.gamesPlayed}</TableCell>
-						</TableRow>
-					))}
-					</TableBody>
-				</Table>
-			</Paper>
+			<BrowserRouter>
+				<AppBar position="fixed" className={classes.appBar}>
+					<Toolbar>
+					<img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:50, paddingRight:8}} alt='throne'/>
+					<Typography variant="h6" noWrap>
+						Thrones 2019
+					</Typography>
+					</Toolbar>
+				</AppBar>		
+				<Drawer 
+					variant='permanent'
+					anchor='left'
+					className={classes.drawer}
+					classes={{
+						paper: classes.drawerPaper,
+					}}
+				>
+					<div className={classes.toolbar} />
+					<List>
+						<ListItem button component={NavRef} to='/'>
+							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+							<ListItemText>Scoreboard</ListItemText>
+						</ListItem>
+					</List>
+				</Drawer>
+				<div className={classes.content}>
+					<div className={classes.toolbar} />
+					<Route path="/" exact component={Scoreboard} />
+				</div>
+			</BrowserRouter>
 		</div>
 	);
 }
 
 export default App;
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles(theme => ({
-	root: {
-		width: '100%',
-		marginTop: theme.spacing(3),
-		overflowX: 'auto',
+	toolbar: {
+		...theme.mixins.toolbar,
 	},
-	table: {
-		minWidth: 650,
+	drawerPaper: {
+		width: drawerWidth,
 	},
-	// root: {
-	// 	width: '100%',
-	// },
-	heading: {
-		fontSize: theme.typography.pxToRem(15),
-		fontWeight: theme.typography.fontWeightRegular,
+	appBar: {
+		zIndex: theme.zIndex.drawer + 1,
+	},
+	drawer: {
+		width: drawerWidth,
+		flexShrink: 0,
+	},
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
 	},
 	app: {
-		padding: 32,
+		display: 'flex',
 	}
   }));
