@@ -8,6 +8,9 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { NavLink, Route, BrowserRouter } from 'react-router-dom'
 import Scoreboard from './containers/Scoreboard.js';
 import ScoreboardIcon from '@material-ui/icons/Dashboard';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 
 // eslint-disable-next-line react/display-name
 const NavRef = React.forwardRef((props, ref) => <div ref={ref}><NavLink {...props}/></div>);
@@ -16,33 +19,74 @@ function App() {
 
 	const classes = useStyles();
 
+	const [mobileOpen, setMobileOpen] = React.useState(false);
+
+	function handleDrawerToggle() {
+		setMobileOpen(!mobileOpen);
+	}
+
 	return (
 		<div className={classes.app}>
 			<BrowserRouter>
 				<AppBar position="fixed" className={classes.appBar}>
 					<Toolbar>
+						<IconButton
+							color="inherit"
+							aria-label="open drawer"
+							edge="start"
+							onClick={handleDrawerToggle}
+							className={classes.menuButton}
+						>
+							<MenuIcon />
+						</IconButton>
 					<img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:50, paddingRight:8}} alt='throne'/>
 					<Typography variant="h6" noWrap>
 						Thrones 2019
 					</Typography>
 					</Toolbar>
-				</AppBar>		
-				<Drawer 
-					variant='permanent'
-					anchor='left'
-					className={classes.drawer}
-					classes={{
-						paper: classes.drawerPaper,
-					}}
-				>
-					<div className={classes.toolbar} />
-					<List>
-						<ListItem button component={NavRef} to='/'>
-							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
-							<ListItemText>Scoreboard</ListItemText>
-						</ListItem>
-					</List>
-				</Drawer>
+				</AppBar>
+				<Hidden smUp implementation="css">
+					<Drawer 
+						variant='temporary'
+						open={mobileOpen}
+						onClose={handleDrawerToggle}
+						anchor='left'
+						className={classes.drawer}
+						classes={{
+							paper: classes.drawerPaper,
+						}}
+						ModalProps={{
+							keepMounted: true, // Better open performance on mobile.
+						}}
+					>
+						{/* <div className={classes.toolbar} /> */}
+						<List>
+							<ListItem button component={NavRef} to='/'>
+								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+								<ListItemText>Scoreboard</ListItemText>
+							</ListItem>
+						</List>
+					</Drawer>	
+				</Hidden>	
+				<Hidden xsDown implementation="css">
+					<Drawer 
+						variant='permanent'
+						anchor='left'
+						className={classes.drawer}
+						classes={{
+							paper: classes.drawerPaper,
+						}}
+					>
+						<div className={classes.toolbar} />
+						<List>
+							<ListItem button component={NavRef} to='/'>
+								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+								<ListItemText>Scoreboard</ListItemText>
+							</ListItem>
+						</List>
+					</Drawer>
+				</Hidden>	
+				
 				<div className={classes.content}>
 					<div className={classes.toolbar} />
 					<Route path="/" exact component={Scoreboard} />
@@ -76,5 +120,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	app: {
 		display: 'flex',
-	}
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+		[theme.breakpoints.up('sm')]: {
+			display: 'none',
+		},
+	},
   }));
