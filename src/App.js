@@ -6,7 +6,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { NavLink, Route, BrowserRouter } from 'react-router-dom'
-import Scoreboard from './containers/Scoreboard.js';
+import Scoreboard from './containers/Scoreboard';
+import Admin from './containers/Admin'
 import ScoreboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
@@ -83,6 +84,10 @@ function App() {
 								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
 								<ListItemText>Scoreboard</ListItemText>
 							</ListItem>
+							<ListItem button component={NavRef} to='/admin'>
+								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+								<ListItemText>Admin</ListItemText>
+							</ListItem>
 						</List>
 					</Drawer>
 				</Hidden>	
@@ -90,6 +95,7 @@ function App() {
 				<div className={classes.content}>
 					<div className={classes.toolbar} />
 					<Route path="/" exact component={Scoreboard} />
+					<Route path="/admin" exact component={Admin} />
 				</div>
 			</BrowserRouter>
 		</div>

@@ -5,21 +5,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-// import Players from '../players';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 const getPlayersFactions = (setPlayers) => {
 	axios.get('http://localhost:4000/players/withFactions')
 		.then((response) => {
-			// return(response.data);
 			setPlayers(response.data)
 		}).catch ((error) => {
 			console.log(error)
@@ -39,9 +32,9 @@ const Scoreboard = () => {
 	}, []);
 	
 	const collapseComponent = (props) => (
-			<div className={props.className}>
-				{props.children}
-			</div>
+		<div className={props.className}>
+			{props.children}
+		</div>
 	)
 
 	if (players === undefined) {
@@ -67,9 +60,9 @@ const Scoreboard = () => {
 					<TableBody>
 					{players.map((player, i) => (
 						<React.Fragment key={i}>
-							<TableRow onClick={() => setExpandedRow(expandedRow === player.firstname ? undefined : player.firstname)}>
+							<TableRow onClick={() => setExpandedRow(expandedRow === player.firstName ? undefined : player.firstName)}>
 								<TableCell>
-									{player.nickname? player.nickname : player.firstname}
+									{player.nickname? player.nickname : player.firstName}
 								</TableCell>
 								<TableCell align="right">{player.gamesPlayed}</TableCell>
 								<TableCell align="right">{player.totalPoints}</TableCell>
@@ -79,7 +72,7 @@ const Scoreboard = () => {
 							<TableRow>
 								<TableCell style={{ padding: 0 }} colSpan={5}>
 									<Collapse
-											in={expandedRow === player.firstname}
+											in={expandedRow === player.firstName}
 											timeout="auto"
 											component={collapseComponent}
 											unmountOnExit
@@ -100,12 +93,12 @@ const Scoreboard = () => {
 														<TableRow key={i}>
 															<TableCell>
 																<div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
-																	<img src={process.env.PUBLIC_URL + 'assets/' + faction.sigillocation} style={{width:20, paddingRight:8}} alt={faction.factionname}/>{faction.factionname}
+																	<img src={process.env.PUBLIC_URL + 'assets/' + faction.sigilLocation} style={{width:20, paddingRight:8}} alt={faction.factionName}/>{faction.factionName}
 																</div>
 															</TableCell>
 															<TableCell align="right">{faction.gamesPlayed}</TableCell>
 															<TableCell align="right">{faction.totalPoints}</TableCell>
-															<TableCell align="right">8</TableCell>
+															<TableCell align="right">{isNaN(faction.totalPoints / faction.gamesPlayed) ? 0 : faction.totalPoints / faction.gamesPlayed}</TableCell>
 															<TableCell align="right">{faction.wins}</TableCell>
 														</TableRow>
 													))}
@@ -129,16 +122,9 @@ export default Scoreboard;
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		// width: '100%',
-		// marginTop: theme.spacing(3),
-		// overflowX: 'auto',
 	},
 	table: {
-		// minWidth: 650,
 	},
-	// root: {
-	// 	width: '100%',
-	// },
 	heading: {
 		fontSize: theme.typography.pxToRem(15),
 		fontWeight: theme.typography.fontWeightRegular,
