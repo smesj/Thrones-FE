@@ -1,85 +1,118 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Players from '../players';
+import Collapse from '@material-ui/core/Collapse';
+import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
+
+const getPlayersFactions = (setPlayers) => {
+	axios.get('http://localhost:4000/players/withFactions')
+		.then((response) => {
+			setPlayers(response.data)
+		}).catch ((error) => {
+			console.log(error)
+		}).finally(() => {
+			return ''
+		})
+}
 
 const Scoreboard = () => {
 
-    const classes = useStyles();
+	const classes = useStyles();
+	const [expandedRow, setExpandedRow] = useState(false)
+	const [players, setPlayers] = useState(undefined)
+
+	useEffect(() => {
+		getPlayersFactions(setPlayers);
+	}, []);
+	
+	const collapseComponent = (props) => (
+		<div className={props.className}>
+			{props.children}
+		</div>
+	)
+
+	if (players === undefined) {
+		return (
+			<div>loading</div>
+		)
+	}
 
     return (
-        <div>
+        <div className={classes.container}>
             <Typography variant='h2'>Thrones 2019 Season 1</Typography>
-			<Paper className={classes.root}>
+			<Grid item xs={12}>
 				<Table className={classes.table}>
 					<TableHead>
-					<TableRow>
-						<TableCell align="left">Player</TableCell>
-						<TableCell align="center">Factions</TableCell>
-						<TableCell align="right">Games Played</TableCell>
-						<TableCell align="right">Total Points</TableCell>
-						<TableCell align="right">Points Per Game</TableCell>
-					</TableRow>
+						<TableRow>
+							<TableCell align="left">Player</TableCell>
+							<TableCell align="right">Games Played</TableCell>
+							<TableCell align="right">Total Points</TableCell>
+							<TableCell align="right">Points Per Game</TableCell>
+							<TableCell align="right">Expand</TableCell>
+						</TableRow>
 					</TableHead>
 					<TableBody>
-					{Players.map((player, i) => (
-						<TableRow key={player.firstName}>
-						<TableCell component="th" scope="row">
-							{player.firstName}
-						</TableCell>
-						<TableCell align="center">
-						<ExpansionPanel>
-							<ExpansionPanelSummary
-							expandIcon={<ExpandMoreIcon />}
-							>
-								<Typography className={classes.heading}>Faction stats</Typography>
-							</ExpansionPanelSummary>
-							<ExpansionPanelDetails>
-								<Table>
-									<TableHead>
-										<TableRow>
-											<TableCell>Faction</TableCell>
-											<TableCell>Games Played</TableCell>
-											<TableCell>Points</TableCell>
-											<TableCell>Wins</TableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-									{player.factions.map((faction, i) => (
-									<TableRow key={i}>
-											<TableCell>
-                                                <div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
-                                                    <img src={process.env.PUBLIC_URL + 'assets/' + faction.icon} style={{width:20, paddingRight:8}} alt={faction.faction}/>{faction.faction}
-                                                </div>
-                                            </TableCell>
-											<TableCell>{faction.gamesPlayed}</TableCell>
-											<TableCell>{faction.points}</TableCell>
-											<TableCell>{faction.wins}</TableCell>
-										</TableRow>
-										))}
-									</TableBody>
-								</Table>
-							</ExpansionPanelDetails>
-						</ExpansionPanel>
-						</TableCell>
-						<TableCell align="right">{player.gamesPlayed}</TableCell>
-						<TableCell align="right">{player.totalPoints}</TableCell>
-						<TableCell align="right">{isNaN(player.totalPoints / player.gamesPlayed) ? 0 : player.totalPoints / player.gamesPlayed}</TableCell>
-						</TableRow>
+					{players.map((player, i) => (
+						<React.Fragment key={i}>
+							<TableRow onClick={() => setExpandedRow(expandedRow === player.firstName ? undefined : player.firstName)}>
+								<TableCell>
+									{player.nickname? player.nickname : player.firstName}
+								</TableCell>
+								<TableCell align="right">{player.gamesPlayed}</TableCell>
+								<TableCell align="right">{player.totalPoints}</TableCell>
+								<TableCell align="right">{isNaN(player.totalPoints / player.gamesPlayed) ? 0 : player.totalPoints / player.gamesPlayed}</TableCell>
+								<TableCell align="right">+</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell style={{ padding: 0 }} colSpan={5}>
+									<Collapse
+											in={expandedRow === player.firstName}
+											timeout="auto"
+											component={collapseComponent}
+											unmountOnExit
+									>
+										<Grid item xs={12}>
+											<Table>
+												<TableHead>
+													<TableRow>
+														<TableCell align="left">Faction</TableCell>
+														<TableCell align="right">Games Played</TableCell>
+														<TableCell align="right">Points</TableCell>
+														<TableCell align="right">Points Per Game</TableCell>
+														<TableCell align="right">Wins</TableCell>
+													</TableRow>
+												</TableHead>
+												<TableBody>
+													{player.factionTotals.map((faction, i) => (
+														<TableRow key={i}>
+															<TableCell>
+																<div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
+																	<img src={process.env.PUBLIC_URL + 'assets/' + faction.sigilLocation} style={{width:20, paddingRight:8}} alt={faction.factionName}/>{faction.factionName}
+																</div>
+															</TableCell>
+															<TableCell align="right">{faction.gamesPlayed}</TableCell>
+															<TableCell align="right">{faction.totalPoints}</TableCell>
+															<TableCell align="right">{isNaN(faction.totalPoints / faction.gamesPlayed) ? 0 : faction.totalPoints / faction.gamesPlayed}</TableCell>
+															<TableCell align="right">{faction.wins}</TableCell>
+														</TableRow>
+													))}
+												</TableBody>
+											</Table>
+										</Grid>
+									</Collapse>
+								</TableCell>
+							</TableRow>
+						</React.Fragment>
 					))}
 					</TableBody>
 				</Table>
-			</Paper>
+			</Grid>
         </div>
     )
 }
@@ -89,21 +122,17 @@ export default Scoreboard;
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: '100%',
-		marginTop: theme.spacing(3),
-		overflowX: 'auto',
 	},
 	table: {
-		minWidth: 650,
 	},
-	// root: {
-	// 	width: '100%',
-	// },
 	heading: {
 		fontSize: theme.typography.pxToRem(15),
 		fontWeight: theme.typography.fontWeightRegular,
 	},
 	app: {
 		padding: 32,
+	},
+	container: {
+		width: '100%',
 	}
   }));
