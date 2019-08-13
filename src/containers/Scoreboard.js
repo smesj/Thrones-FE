@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 const getPlayersFactions = (setPlayers) => {
-	axios.get('http://api.lastdaysofcheese.com/players/withFactions')
+	axios.get('https://api.lastdaysofcheese.com/players/withFactions')
 		.then((response) => {
 			setPlayers(response.data)
 		}).catch ((error) => {
