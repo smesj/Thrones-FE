@@ -64,11 +64,12 @@ const getFactions = (setFactions) => {
     });
 }
 
-const submitGame = (values, actions) => {
+const submitGame = (values, actions, setGames) => {
     axios.post('https://api.lastdaysofcheese.com/games/', 
         values
     )
     .then(function (response) {
+        getGames(setGames);
     })
     .catch(function (error) {
     })
@@ -171,9 +172,12 @@ const Admin = () => {
                 />
             </Dialog>
             <Button color="primary" variant="outlined" onClick={addPlayerDia(setPlayerDialog)}>Add Player</Button>
+            {players && players.map((player, i) => (
+                <Typography key={i}>{player.firstName}, {player.lastName}</Typography>
+            ))}
             <br />
             <br />
-            <br />
+            <Typography variant='h5'>Previous Games</Typography>
             {games && games.map((game) => (
                 <ExpansionPanel key={game.id}>
                     <ExpansionPanelSummary
@@ -185,17 +189,17 @@ const Admin = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Player</TableCell>
-                                    <TableCell align="left">Faction</TableCell>
-                                    <TableCell align="left">Points</TableCell>
-                                    <TableCell align="left">Win</TableCell>
+                                    <TableCell className={classes.tableCell} align="left">Player</TableCell>
+                                    <TableCell className={classes.tableCell} align="left">Faction</TableCell>
+                                    <TableCell className={classes.tableCell} align="left">Points</TableCell>
+                                    <TableCell className={classes.tableCell} align="left">Win</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {game.gameEntries.map((entry) => (
-                                    <TableRow key={entry.id}>
-                                        <TableCell align="left">{entry.nickName}</TableCell>
-                                        <TableCell align="left">
+                                {game.gameEntries.map((entry, i) => (
+                                    <TableRow key={i}>
+                                        <TableCell className={classes.tableCell} align="left">{entry.nickName}</TableCell>
+                                        <TableCell className={classes.tableCell} align="left">
                                             <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-start'}}>
                                                 <img 
                                                     src={process.env.PUBLIC_URL + 'assets/' + entry.sigilLocation} 
@@ -205,8 +209,8 @@ const Admin = () => {
                                                 <Typography>{entry.factionName}</Typography>
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left">{entry.points}</TableCell>
-                                        <TableCell align="left">{entry.win ? <img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:20, paddingRight:8}}/> : ''}</TableCell>
+                                        <TableCell className={classes.tableCell} align="left">{entry.points}</TableCell>
+                                        <TableCell className={classes.tableCell} align="left">{entry.win ? <img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:20, paddingRight:8}}/> : ''}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -227,7 +231,7 @@ const Admin = () => {
                     <Formik
                         initialValues={{players: [playerGameEntry]}}
                         onSubmit={(values, actions) => {
-                            submitGame(values, actions)
+                            submitGame(values, actions, setGames)
                             actions.setSubmitting(false);
                         }}
                         render={({ errors, status, touched, isSubmitting, values, handleChange }) => (
@@ -237,7 +241,7 @@ const Admin = () => {
                                     render={arrayHelpers => (
                                         <div style={{width:'100%'}}>
                                             {values.players.map((player, i) => (
-                                                <div key={i} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'flex-end'}}>
+                                                <div key={i} style={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'flex-end', flexWrap: 'wrap'}}>
                                                     <div style={{width:200, padding:8, paddingBottom: 12}}>
                                                         <label>
                                                             <Typography>Player</Typography>
@@ -334,5 +338,8 @@ const Admin = () => {
 export default Admin;
 
 const useStyles = makeStyles(theme => ({
-
+    tableCell: {
+		paddingRight: 4,
+		paddingLeft: 5
+	},
 }))

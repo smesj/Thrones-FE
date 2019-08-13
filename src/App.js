@@ -66,6 +66,10 @@ function App() {
 								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
 								<ListItemText>Scoreboard</ListItemText>
 							</ListItem>
+							<ListItem button component={NavRef} to='/admin'>
+								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+								<ListItemText>Admin</ListItemText>
+							</ListItem>
 						</List>
 					</Drawer>	
 				</Hidden>	
@@ -121,8 +125,9 @@ const useStyles = makeStyles(theme => ({
 		flexShrink: 0,
 	},
 	content: {
-		flexGrow: 1,
-		padding: theme.spacing(3),
+		// flexGrow: 1,
+		width:'100%',
+		// padding: theme.spacing(3),
 	},
 	app: {
 		display: 'flex',
