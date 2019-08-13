@@ -29,7 +29,7 @@ const playerGameEntry = {
 }
 
 const addPlayer = (values, actions, setPlayers) => {
-    axios.post('http://api.lastdaysofcheese.com:4000/players/',
+    axios.post('http://api.lastdaysofcheese.com/players/',
         values
     )
     .then((response) => {
@@ -43,7 +43,7 @@ const addPlayer = (values, actions, setPlayers) => {
 }
 
 const getPlayers = (setPlayers) => {
-    axios.get('http://api.lastdaysofcheese.com:4000/players/')
+    axios.get('http://api.lastdaysofcheese.com/players/')
     .then((response) => {
         setPlayers(response.data);
     })
@@ -54,7 +54,7 @@ const getPlayers = (setPlayers) => {
 }
 
 const getFactions = (setFactions) => {
-    axios.get('http://api.lastdaysofcheese.com:4000/factions/')
+    axios.get('http://api.lastdaysofcheese.com/factions/')
     .then((response) => {
         setFactions(response.data);
     })
@@ -65,7 +65,7 @@ const getFactions = (setFactions) => {
 }
 
 const submitGame = (values, actions) => {
-    axios.post('http://api.lastdaysofcheese.com:4000/games/', 
+    axios.post('http://api.lastdaysofcheese.com/games/', 
         values
     )
     .then(function (response) {
@@ -82,7 +82,7 @@ const addPlayerDia = (setPlayerDialog) => () => {
 }
 
 const getGames = (setGames) => {
-    axios.get('http://api.lastdaysofcheese.com:4000/games/')
+    axios.get('http://api.lastdaysofcheese.com/games/')
     .then((response) => {
         setGames(response.data);
     })
