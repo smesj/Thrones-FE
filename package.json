@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.3.1",
     "@material-ui/icons": "^4.2.1",
+    "auth0-js": "^9.11.3",
     "axios": "^0.19.0",
     "formik": "^1.5.8",
     "moment": "^2.24.0",
