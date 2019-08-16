@@ -29,7 +29,7 @@ const playerGameEntry = {
 }
 
 const addPlayer = (values, actions, setPlayers) => {
-    axios.post('https://api.lastdaysofcheese.com/players/',
+    axios.post(process.env.REACT_APP_API_URL+'/players/',
         values
     )
     .then((response) => {
@@ -43,7 +43,7 @@ const addPlayer = (values, actions, setPlayers) => {
 }
 
 const getPlayers = (setPlayers) => {
-    axios.get('https://api.lastdaysofcheese.com/players/')
+    axios.get(process.env.REACT_APP_API_URL+'/players/')
     .then((response) => {
         setPlayers(response.data);
     })
@@ -54,7 +54,7 @@ const getPlayers = (setPlayers) => {
 }
 
 const getFactions = (setFactions) => {
-    axios.get('https://api.lastdaysofcheese.com/factions/')
+    axios.get(process.env.REACT_APP_API_URL+'/factions/')
     .then((response) => {
         setFactions(response.data);
     })
@@ -65,7 +65,7 @@ const getFactions = (setFactions) => {
 }
 
 const submitGame = (values, actions, setGames) => {
-    axios.post('https://api.lastdaysofcheese.com/games/', 
+    axios.post(process.env.REACT_APP_API_URL+'/games/', 
         values
     )
     .then(function (response) {
@@ -83,7 +83,7 @@ const addPlayerDia = (setPlayerDialog) => () => {
 }
 
 const getGames = (setGames) => {
-    axios.get('https://api.lastdaysofcheese.com/games/')
+    axios.get(process.env.REACT_APP_API_URL+'/games/')
     .then((response) => {
         setGames(response.data);
     })

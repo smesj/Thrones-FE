@@ -7,7 +7,7 @@ class Auth {
       domain: 'thrones.auth0.com',
       audience: 'https://thrones.auth0.com/userinfo',
       clientID: 'Ho2KUMFOJDO2a9EKW7hqrmKqdl0lt053',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: process.env.REACT_APP_AUTH_REDIRECT,
       responseType: 'id_token',
       scope: 'openid profile'
     });

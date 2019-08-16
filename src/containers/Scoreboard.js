@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 const getPlayersFactions = (setPlayers) => {
-	axios.get('https://api.lastdaysofcheese.com/players/withFactions')
+	axios.get(process.env.REACT_APP_API_URL+'/players/withFactions')
 		.then((response) => {
 			setPlayers(response.data)
 		}).catch ((error) => {
@@ -45,6 +45,7 @@ const Scoreboard = () => {
 
     return (
         <div className={classes.container}>
+			{console.log(process.env.REACT_APP_TEST_THING)}
             <Typography variant='h4'>Thrones 2019 Season 1</Typography>
 			<Grid item xs={12}>
 				<Table style={{ width: '100%' }}>

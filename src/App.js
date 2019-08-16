@@ -69,7 +69,6 @@ function App(props) {
 					>
 						<MenuIcon />
 					</IconButton>
-				{/* <img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:50, paddingRight:8}} alt='throne'/> */}
 				<img src={'https://firebasestorage.googleapis.com/v0/b/thrones-818e8.appspot.com/o/throne.PNG?alt=media&token=bcc76194-ac99-4334-a200-dcaa5376f10a'} style={{width:50, paddingRight:8}} alt='throne'/>
 				<Typography variant="h6" noWrap>
 					Thrones 2019
