@@ -7,7 +7,7 @@ class Auth {
       domain: 'thrones.auth0.com',
       audience: 'https://thrones.auth0.com/userinfo',
       clientID: 'Ho2KUMFOJDO2a9EKW7hqrmKqdl0lt053',
-      redirectUri: process.env.REACT_APP_AUTH_REDIRECT,
+      redirectUri: process.env.REACT_APP_SITE_URL+'/callback',
       responseType: 'id_token',
       scope: 'openid profile'
     });
@@ -57,7 +57,7 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-        returnTo: 'http://localhost:3000',
+        returnTo: process.env.REACT_APP_SITE_URL,
         clientID: 'Ho2KUMFOJDO2a9EKW7hqrmKqdl0lt053',
       });
   }
