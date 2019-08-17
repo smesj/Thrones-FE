@@ -9,13 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const getPlayersFactions = (setPlayers) => {
 	axios.get(process.env.REACT_APP_API_URL+'/players/withFactions')
 		.then((response) => {
 			setPlayers(response.data)
 		}).catch ((error) => {
-			console.log(error)
 		}).finally(() => {
 			return ''
 		})
@@ -39,13 +39,12 @@ const Scoreboard = () => {
 
 	if (players === undefined) {
 		return (
-			<div>loading</div>
+			<CircularProgress/>
 		)
 	}
 
     return (
         <div className={classes.container}>
-			{console.log(process.env.REACT_APP_TEST_THING)}
             <Typography variant='h4'>Thrones 2019 Season 1</Typography>
 			<Grid item xs={12}>
 				<Table style={{ width: '100%' }}>
@@ -61,19 +60,22 @@ const Scoreboard = () => {
 					<TableBody>
 					{players.map((player, i) => (
 						<React.Fragment key={i}>
-							<TableRow onClick={() => setExpandedRow(expandedRow === player.firstName ? undefined : player.firstName)}>
+							<TableRow onClick={() => setExpandedRow(expandedRow === player.id ? undefined : player.id)}>
 								<TableCell className={classes.tableCell}>
-									{player.nickname? player.nickname : player.firstName}
+									<div style={{display:'flex', alignItems:'center'}}>
+										<img src={player.picture} style={{width: 50, marginRight: 8}}/>
+										<Typography>{player.userName}</Typography>
+									</div>
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">{player.gamesPlayed}</TableCell>
 								<TableCell className={classes.tableCell} align="right">{player.totalPoints}</TableCell>
-								<TableCell className={classes.tableCell} align="right">{isNaN(player.totalPoints / player.gamesPlayed) ? 0 : player.totalPoints / player.gamesPlayed}</TableCell>
+								<TableCell className={classes.tableCell} align="right">{isNaN(player.totalPoints / player.gamesPlayed) ? 0 : (player.totalPoints / player.gamesPlayed).toFixed(2)}</TableCell>
 								<TableCell className={classes.tableCell} align="right">{player.wins}</TableCell>
 							</TableRow>
 							<TableRow>
 								<TableCell style={{ padding: 0 }} colSpan={5}>
 									<Collapse
-											in={expandedRow === player.firstName}
+											in={expandedRow === player.id}
 											timeout="auto"
 											component={collapseComponent}
 											unmountOnExit
@@ -125,7 +127,6 @@ const useStyles = makeStyles(theme => ({
 	root: {
 	},
 	table: {
-		// width: 400,
 	},
 	tableCell: {
 		paddingRight: 4,

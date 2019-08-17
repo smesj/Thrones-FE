@@ -4,16 +4,22 @@ import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { NavLink, Route, BrowserRouter, withRouter } from 'react-router-dom'
+import { List, ListItem, ListItemIcon, ListItemText, Button } from '@material-ui/core';
+import { NavLink, Route, BrowserRouter, Switch } from 'react-router-dom'
 import Scoreboard from './containers/Scoreboard';
 import Admin from './containers/Admin'
+import Profile from './containers/Profile'
 import ScoreboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
+import AdminIcon from '@material-ui/icons/Settings';
+import AccountIcon from '@material-ui/icons/AccountBox';
 import IconButton from '@material-ui/core/IconButton';
+import GamesIcon from '@material-ui/icons/ViewList';
 import Hidden from '@material-ui/core/Hidden';
-import auth0Client from './Auth';
-import SecuredRoute from './securedRoute/SecuredRoute';
+import { useAuth0 } from "./react-auth0-wrapper";
+import PrivateRoute from "./components/PrivateRoute";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import GamesList from './containers/GamesList';
 
 // eslint-disable-next-line react/display-name
 const NavRef = React.forwardRef((props, ref) => <div ref={ref}><NavLink {...props}/></div>);
@@ -21,43 +27,23 @@ const NavRef = React.forwardRef((props, ref) => <div ref={ref}><NavLink {...prop
 function App(props) {
 
 	const classes = useStyles();
+	const { isAuthenticated, loginWithRedirect, logout, loading, user } = useAuth0();
 
 	const [mobileOpen, setMobileOpen] = useState(false);
-	const [user, setUser] = useState(undefined);
-	const [checkingSession, setCheckingSession] = useState(true);
 
 	function handleDrawerToggle() {
 		setMobileOpen(!mobileOpen);
 	}
 
-	useEffect(() => {
-		const silentAuth = async () => {
-			if (props.location.pathname === '/callback') {
-				try {
-					await auth0Client.handleAuthentication();
-				} catch (err) {
-					console.log(err.error);
-				}
-			}
-
-			try {
-				await auth0Client.silentAuth();
-				setUser(auth0Client.getProfile());
-				props.history.replace('/');			
-			} catch (err) {
-				if (err.error !== 'login_required') console.log(err.error);
-			}
-		};
-		silentAuth()	
-	}, []);
-
-	const signOut = () => {
-		auth0Client.signOut();
-		setUser(auth0Client.getProfile());
-	};
+	if (loading) {
+		return (
+			<CircularProgress/>
+		);
+	}
 
 	return (
 		<div className={classes.app}>
+			<BrowserRouter>
 			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar>
 					<IconButton
@@ -73,6 +59,16 @@ function App(props) {
 				<Typography variant="h6" noWrap>
 					Thrones 2019
 				</Typography>
+				{ isAuthenticated ? (
+				<div style={{marginLeft: 'auto', display:'flex'}}>
+					<img src={user.picture} style={{borderRadius:'50%', width:50}}/>
+					<Button variant='contained' onClick={() => logout()}>Logout</Button>
+				</div>
+				) : (
+					<div style={{marginLeft: 'auto', display:'flex'}}>
+						<Button variant='contained' onClick={() => loginWithRedirect({})}>Login</Button>
+					</div>		
+				)}
 				</Toolbar>
 			</AppBar>
 			<Hidden smUp implementation="css">
@@ -95,8 +91,16 @@ function App(props) {
 							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
 							<ListItemText>Scoreboard</ListItemText>
 						</ListItem>
+						<ListItem button component={NavRef} to='/games'>
+							<ListItemIcon><GamesIcon/></ListItemIcon>
+							<ListItemText>Games</ListItemText>
+						</ListItem>						
+						<ListItem button component={NavRef} to='/profile'>
+							<ListItemIcon><AccountIcon/></ListItemIcon>
+							<ListItemText>Profile</ListItemText>
+						</ListItem>
 						<ListItem button component={NavRef} to='/admin'>
-							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+							<ListItemIcon><AdminIcon/></ListItemIcon>
 							<ListItemText>Admin</ListItemText>
 						</ListItem>
 					</List>
@@ -117,37 +121,37 @@ function App(props) {
 							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
 							<ListItemText>Scoreboard</ListItemText>
 						</ListItem>
+						<ListItem button component={NavRef} to='/games'>
+							<ListItemIcon><GamesIcon/></ListItemIcon>
+							<ListItemText>Games</ListItemText>
+						</ListItem>						
+						<ListItem button component={NavRef} to='/profile'>
+							<ListItemIcon><AccountIcon/></ListItemIcon>
+							<ListItemText>Profile</ListItemText>
+						</ListItem>
 						<ListItem button component={NavRef} to='/admin'>
-							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
+							<ListItemIcon><AdminIcon/></ListItemIcon>
 							<ListItemText>Admin</ListItemText>
 						</ListItem>
-						{ !auth0Client.isAuthenticated() && 
-							<ListItem button onClick={auth0Client.signIn}>
-								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
-								<ListItemText>Login</ListItemText>
-							</ListItem>
-						}
-						{ auth0Client.isAuthenticated() && 
-							<ListItem button onClick={() => {signOut()}}>
-								<ListItemIcon><ScoreboardIcon/></ListItemIcon>
-								<ListItemText>Logout + {auth0Client.getProfile().name}</ListItemText>
-							</ListItem>
-						}
-						
 					</List>
 				</Drawer>
 			</Hidden>	
 			
 			<div className={classes.content}>
 				<div className={classes.toolbar} />
-				<Route path="/" exact component={Scoreboard} />
-				<SecuredRoute path="/admin" exact component={Admin} />
+					<Switch>
+						<Route path="/" exact component={Scoreboard} />
+						<Route path="/games" exact component={GamesList} />
+						<PrivateRoute path="/admin" exact component={Admin} />
+						<PrivateRoute path="/profile" exact component={Profile} />
+					</Switch>	
 			</div>
+			</BrowserRouter>
 		</div>
 	);
 }
 
-export default withRouter(App);
+export default App;
 
 const drawerWidth = 240;
 
@@ -166,9 +170,7 @@ const useStyles = makeStyles(theme => ({
 		flexShrink: 0,
 	},
 	content: {
-		// flexGrow: 1,
 		width:'100%',
-		// padding: theme.spacing(3),
 	},
 	app: {
 		display: 'flex',

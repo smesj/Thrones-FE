@@ -15,31 +15,11 @@ import moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
-const player = {
-    firstName: '',
-    lastName: '',
-    nickName: '',
-}
-
 const playerGameEntry = {
     id:'',
     points:'',
     factionId: '',
     win: false
-}
-
-const addPlayer = (values, actions, setPlayers) => {
-    axios.post(process.env.REACT_APP_API_URL+'/players/',
-        values
-    )
-    .then((response) => {
-        getPlayers(setPlayers)
-    })
-    .catch(function (error) {
-    })
-    .finally(function () {
-        actions.setSubmitting(false);
-    });
 }
 
 const getPlayers = (setPlayers) => {
@@ -78,10 +58,6 @@ const submitGame = (values, actions, setGames) => {
     });
 }
 
-const addPlayerDia = (setPlayerDialog) => () => {
-    setPlayerDialog(true);
-}
-
 const getGames = (setGames) => {
     axios.get(process.env.REACT_APP_API_URL+'/games/')
     .then((response) => {
@@ -93,22 +69,17 @@ const getGames = (setGames) => {
     });
 }
 
-const handleClose = (setPlayerDialog) => () => {
-    setPlayerDialog(false);
-}
-
 const Admin = () => {
 
     const classes = useStyles();
     const [players, setPlayers] = useState(undefined);
     const [factions, setFactions] = useState(undefined);
-    const [playerDialog, setPlayerDialog] = useState(false);
     const [games, setGames] = useState([])
 
     const playersDropdownData = (players? players.map((player) => {
         return ({
             value: player.id,
-            label: player.nickName,
+            label: player.userName,
         })
     }) : []);
 
@@ -127,54 +98,19 @@ const Admin = () => {
     
     return (
         <div>
-            <Dialog open={playerDialog} onClose={handleClose(setPlayerDialog)}>
-                <DialogTitle>Add Player</DialogTitle>
-                <Formik
-                    initialValues={player}
-                    onSubmit={(values, actions) => {
-                        addPlayer(values, actions, setPlayers)
-                        setPlayerDialog(false)
-                    }}
-                    render={({ errors, status, touched, isSubmitting, values, handleChange, submitForm }) => (
-                        <>
-                            <DialogContent>
-                                <Form style={{display:'flex', flexDirection:'column'}}>
-                                    <TextField
-                                        label='First Name'
-                                        name='firstName'
-                                        value={values.firstName}
-                                        onChange={handleChange}
-                                    />
-                                    <TextField
-                                        label='Last Name'
-                                        name='lastName'
-                                        value={values.lastName}
-                                        onChange={handleChange}
-                                    />
-                                    <TextField
-                                        label='Nickname'
-                                        name='nickName'
-                                        value={values.nickName}
-                                        onChange={handleChange}
-                                    />
-                                </Form>
-                            </DialogContent>
-                            <DialogActions>                     
-                                <Button onClick={handleClose(setPlayerDialog)} color="primary">
-                                    Cancel
-                                </Button>
-                                <Button type='submit' onClick={submitForm} color="primary">
-                                    Submit
-                                </Button>
-                            </DialogActions>
-                        </>
-                    )}
-                />
-            </Dialog>
-            <Button color="primary" variant="outlined" onClick={addPlayerDia(setPlayerDialog)}>Add Player</Button>
-            {players && players.map((player, i) => (
-                <Typography key={i}>{player.firstName}, {player.lastName}</Typography>
-            ))}
+            <Typography variant='h5'>Registered Players</Typography>
+            <br/>
+            {players && players.map((player, i) => {
+                if (player.firstName !== null && player.lastName !== null) {
+                    return (
+                        <Typography key={i}>{player.firstName}, {player.lastName}</Typography>
+                    )
+                } else {
+                    return (
+                        <Typography key={i}>{player.userName}</Typography>
+                    )
+                }
+            })}
             <br />
             <br />
             <Typography variant='h5'>Previous Games</Typography>
