@@ -25,6 +25,7 @@ ReactDOM.render(
     <App />
 </Auth0Provider>,
 document.getElementById('root'));
+document.body.style = 'background: #ECEFF1;';
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

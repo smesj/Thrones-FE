@@ -55,20 +55,20 @@ function App(props) {
 					>
 						<MenuIcon />
 					</IconButton>
-				<img src={'https://firebasestorage.googleapis.com/v0/b/thrones-818e8.appspot.com/o/throne.PNG?alt=media&token=bcc76194-ac99-4334-a200-dcaa5376f10a'} style={{width:50, paddingRight:8}} alt='throne'/>
-				<Typography variant="h6" noWrap>
-					Thrones 2019
-				</Typography>
-				{ isAuthenticated ? (
-				<div style={{marginLeft: 'auto', display:'flex'}}>
-					<img src={user.picture} style={{borderRadius:'50%', width:50}}/>
-					<Button variant='contained' onClick={() => logout()}>Logout</Button>
-				</div>
-				) : (
+					<img src={'https://firebasestorage.googleapis.com/v0/b/thrones-818e8.appspot.com/o/throne.PNG?alt=media&token=bcc76194-ac99-4334-a200-dcaa5376f10a'} style={{width:50, paddingRight:8}} alt='throne'/>
+					<Typography variant="h6" noWrap>
+						Thrones
+					</Typography>
+					{ isAuthenticated ? (
 					<div style={{marginLeft: 'auto', display:'flex'}}>
-						<Button variant='contained' onClick={() => loginWithRedirect({})}>Login</Button>
-					</div>		
-				)}
+						<img src={user.picture} style={{borderRadius:'50%', width:50}}/>
+						<Button variant='contained' onClick={() => logout()}>Logout</Button>
+					</div>
+					) : (
+						<div style={{marginLeft: 'auto', display:'flex'}}>
+							<Button variant='contained' onClick={() => loginWithRedirect({})}>Login</Button>
+						</div>		
+					)}
 				</Toolbar>
 			</AppBar>
 			<Hidden smUp implementation="css">
@@ -85,7 +85,10 @@ function App(props) {
 						keepMounted: true, // Better open performance on mobile.
 					}}
 				>
-					<div className={classes.toolbar} />
+					<div className={classes.toolbar}>
+						<img src={'https://firebasestorage.googleapis.com/v0/b/thrones-818e8.appspot.com/o/throne.PNG?alt=media&token=bcc76194-ac99-4334-a200-dcaa5376f10a'} style={{width:50, paddingRight:8}} alt='throne'/>
+						<Typography variant="h6">Thrones</Typography>
+					</div>
 					<List>
 						<ListItem button component={NavRef} to='/'>
 							<ListItemIcon><ScoreboardIcon/></ListItemIcon>
@@ -158,6 +161,8 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 	toolbar: {
 		...theme.mixins.toolbar,
+		display: 'flex',
+		alignItems: 'center'
 	},
 	drawerPaper: {
 		width: drawerWidth,
