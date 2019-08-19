@@ -66,10 +66,10 @@ const PlayerScore = ({ players }) => {
                                     </Grid>
                                     <Grid container item xs={12} className={classes.pointsRow}>
                                         <Grid item xs={3} className={classes.gridItem}>
-                                            <Typography variant='button'>{isNaN(player.totalPoints / player.gamesPlayed) ? 0 : (player.totalPoints / player.gamesPlayed).toFixed(2)}</Typography>
+                                            <Typography variant='button'>{isNaN((player.totalPoints + (player.wins * 2 )) / player.gamesPlayed) ? 0 : ((player.totalPoints + (player.wins * 2 )) / player.gamesPlayed).toFixed(2)}</Typography>
                                         </Grid>
                                         <Grid item xs={3} className={classes.gridItem}>
-                                            <Typography variant='button'>{player.totalPoints}</Typography>
+                                            <Typography variant='button'>{player.totalPoints + (player.wins * 2)}</Typography>
                                         </Grid>
                                         <Grid item xs={3} className={classes.gridItem}>
                                             <Typography variant='button'>{player.gamesPlayed}</Typography>

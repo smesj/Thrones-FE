@@ -24,10 +24,10 @@ const PlayerFactionSummary = ({ factionData }) => {
                     <Typography variant="button">G.P.</Typography>
                 </Grid>
                 <Grid item xs={2} className={classes.gridItem}>
-                    <Typography variant="button">P.P.G.</Typography>
+                    <Typography variant="button">P</Typography>
                 </Grid>
                 <Grid item xs={2} className={classes.gridItem}>
-                    <Typography variant="button">P</Typography>
+                    <Typography variant="button">P.P.G.</Typography>
                 </Grid>
                 <Grid item xs={2} className={classes.gridItem}>
                     <Typography variant="button">W</Typography>
@@ -45,10 +45,10 @@ const PlayerFactionSummary = ({ factionData }) => {
                         <Typography>{faction.gamesPlayed}</Typography>
                     </Grid>
                     <Grid item xs={2} className={classes.gridItem}>
-                        <Typography>{faction.totalPoints}</Typography>
+                        <Typography>{faction.totalPoints}{faction.wins !== 0 && "(+"+faction.wins*2+")"}</Typography>
                     </Grid>
                     <Grid item xs={2} className={classes.gridItem}>
-                        <Typography>{isNaN(faction.totalPoints / faction.gamesPlayed) ? 0 : faction.totalPoints / faction.gamesPlayed}</Typography>
+                        <Typography>{isNaN((faction.totalPoints + (faction.wins * 2)) / faction.gamesPlayed) ? 0 : (faction.totalPoints + (faction.wins * 2)) / faction.gamesPlayed}</Typography>
                     </Grid>
                     <Grid item xs={2} className={classes.gridItem}>
                         <Typography>{faction.wins}</Typography>

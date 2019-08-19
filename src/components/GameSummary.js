@@ -40,7 +40,7 @@ const GameSummary = ({ gameData }) => {
                     </div>
                     </Grid>
                     <Grid item xs={3} className={classes.gridItem}>
-                        <Typography variant='button'>{entry.points}</Typography>
+                        <Typography variant='button'>{entry.points}{entry.win && '+(2)'}</Typography>
                     </Grid>
                     <Grid item xs={3} className={classes.gridItem}>
                         <Typography variant='button'>{entry.win ? <img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:20, paddingRight:8}}/> : ''}</Typography>
