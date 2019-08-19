@@ -1,4 +1,4 @@
-import React, { useEffect, useState }from 'react';
+import React, { useState }from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
@@ -20,7 +20,7 @@ import Hidden from '@material-ui/core/Hidden';
 import { useAuth0 } from "./react-auth0-wrapper";
 import PrivateRoute from "./components/PrivateRoute";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import GamesList from './containers/GamesList';
+import Games from './containers/Games';
 
 // eslint-disable-next-line react/display-name
 const NavRef = React.forwardRef((props, ref) => <div ref={ref}><NavLink {...props}/></div>);
@@ -162,7 +162,7 @@ function App() {
 				<div className={classes.toolbar} />
 					<Switch>
 						<Route path="/" exact component={Scoreboard} />
-						<Route path="/games" exact component={GamesList} />
+						<Route path="/games" exact component={Games} />
 						<PrivateRoute path="/admin" exact component={Admin} />
 						<PrivateRoute path="/profile" exact component={Profile} />
 					</Switch>	
