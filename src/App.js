@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { List, ListItem, ListItemIcon, ListItemText, Button } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { NavLink, Route, BrowserRouter, Switch } from 'react-router-dom'
 import Scoreboard from './containers/Scoreboard';
 import Admin from './containers/Admin'
@@ -12,6 +12,7 @@ import Profile from './containers/Profile'
 import ScoreboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import AdminIcon from '@material-ui/icons/Settings';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import IconButton from '@material-ui/core/IconButton';
 import GamesIcon from '@material-ui/icons/ViewList';
@@ -24,7 +25,7 @@ import GamesList from './containers/GamesList';
 // eslint-disable-next-line react/display-name
 const NavRef = React.forwardRef((props, ref) => <div ref={ref}><NavLink {...props}/></div>);
 
-function App(props) {
+function App() {
 
 	const classes = useStyles();
 	const { isAuthenticated, loginWithRedirect, logout, loading, user } = useAuth0();
@@ -59,15 +60,10 @@ function App(props) {
 					<Typography variant="h6" noWrap>
 						Thrones
 					</Typography>
-					{ isAuthenticated ? (
-					<div style={{marginLeft: 'auto', display:'flex'}}>
-						<img src={user.picture} style={{borderRadius:'50%', width:50}}/>
-						<Button variant='contained' onClick={() => logout()}>Logout</Button>
-					</div>
-					) : (
+					{ isAuthenticated && (
 						<div style={{marginLeft: 'auto', display:'flex'}}>
-							<Button variant='contained' onClick={() => loginWithRedirect({})}>Login</Button>
-						</div>		
+							<img src={user.picture} style={{borderRadius:'50%', width:40}}/>
+						</div>
 					)}
 				</Toolbar>
 			</AppBar>
@@ -106,6 +102,17 @@ function App(props) {
 							<ListItemIcon><AdminIcon/></ListItemIcon>
 							<ListItemText>Admin</ListItemText>
 						</ListItem>
+						{ isAuthenticated ? (
+							<ListItem button onClick={() => logout()} className={classes.accountButton}>
+								<ListItemIcon><img src={user.picture} style={{borderRadius:'50%', width:30}}/></ListItemIcon>
+								<ListItemText>Logout</ListItemText>
+							</ListItem>
+						) : (
+							<ListItem button onClick={() => loginWithRedirect({})} className={classes.accountButton}>
+								<ListItemIcon><AccountCircle/></ListItemIcon>
+								<ListItemText>Login</ListItemText>
+							</ListItem>	
+						)}
 					</List>
 				</Drawer>	
 			</Hidden>	
@@ -136,6 +143,17 @@ function App(props) {
 							<ListItemIcon><AdminIcon/></ListItemIcon>
 							<ListItemText>Admin</ListItemText>
 						</ListItem>
+						{ isAuthenticated ? (
+							<ListItem button onClick={() => logout()} className={classes.accountButton}>
+								<ListItemIcon><img src={user.picture} style={{borderRadius:'50%', width:30}}/></ListItemIcon>
+								<ListItemText>Logout</ListItemText>
+							</ListItem>
+						) : (	
+							<ListItem button onClick={() => loginWithRedirect({})} className={classes.accountButton}>
+								<ListItemIcon><AccountCircle/></ListItemIcon>
+								<ListItemText>Login</ListItemText>
+							</ListItem>	
+						)}
 					</List>
 				</Drawer>
 			</Hidden>	
@@ -186,4 +204,7 @@ const useStyles = makeStyles(theme => ({
 			display: 'none',
 		},
 	},
+	accountButton: {
+		marginTop: 48,
+	}
   }));
