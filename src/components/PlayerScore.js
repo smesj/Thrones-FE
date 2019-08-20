@@ -14,11 +14,6 @@ const PlayerScore = ({ players }) => {
 
     const classes = useStyles();
 
-    const orderedPlayers = players.sort((a,b) => {
-        return (b.totalPoints / b.gamesPlayed) - (a.totalPoints / a.gamesPlayed)
-    
-    });
-
     return (
         <div className={classes.root}>         
             <Grid 
@@ -50,7 +45,7 @@ const PlayerScore = ({ players }) => {
                     </ExpansionPanelSummary>  
                 </div>           
                 <div className={classes.playerEntryContainer}>        
-                {orderedPlayers.map((player, i) =>(
+                {players.map((player, i) =>(
                     <ExpansionPanel key={i}>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
