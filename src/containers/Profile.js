@@ -53,6 +53,7 @@ const Profile = () => {
 			<Formik
 			initialValues={{
 				userName: player.userName,
+				firstName: player.firstName,
 			}}
 			onSubmit={(values, actions) => {
 				updatePlayer(values, actions, user)
@@ -61,9 +62,19 @@ const Profile = () => {
 				<Form style={{padding: 8, margin:'auto'}}>
 					<div>
 						<TextField
-							label='User Name'
+							label='Faction Name'
 							name={'userName'}
 							value={values.userName}
+							onChange={handleChange}
+							variant="outlined"
+							margin='dense'
+						/>
+					</div>
+					<div>
+						<TextField
+							label='Player Name'
+							name={'firstName'}
+							value={values.firstName}
 							onChange={handleChange}
 							variant="outlined"
 							margin='dense'

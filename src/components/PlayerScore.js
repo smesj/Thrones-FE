@@ -56,7 +56,7 @@ const PlayerScore = ({ players }) => {
                                 <Grid container>
                                     <Grid container item xs={12}>
                                         <Grid item xs={12}>
-                                            <Typography variant='subtitle2'>{player.userName}</Typography>
+                                            <Typography variant='subtitle2'>{player.userName} - <Typography variant='caption'>{player.firstName ? player.firstName : player.email}</Typography></Typography>
                                         </Grid>
                                     </Grid>
                                     <Grid container item xs={12} className={classes.pointsRow}>

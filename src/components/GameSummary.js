@@ -11,39 +11,40 @@ const GameSummary = ({ gameData }) => {
     return (
         <Grid container>
             <Grid item xs={12} container className={classes.header}>
-                <Grid item xs={3}>
-                    <Typography variant='button'>Player</Typography>
-                </Grid>
-                <Grid item xs={3} className={classes.gridItem}>
+                <Grid item xs={4} className={classes.gridItem}>
                     <Typography variant='button'>Faction</Typography>
                 </Grid>
-                <Grid item xs={3} className={classes.gridItem}>
+                <Grid item xs={4} className={classes.gridItem}>
                     <Typography variant='button'>Points</Typography>
                 </Grid>
-                <Grid item xs={3} className={classes.gridItem}>
+                <Grid item xs={4} className={classes.gridItem}>
                     <Typography variant='button'>Win</Typography>
                 </Grid>
             </Grid>
             {gameData.gameEntries.map((entry, i) => (
                 <Grid item xs={12} container key={i} style={{borderBottom:'solid', borderWidth: 1, borderColor: '#0003', padding:8}}>
-                    <Grid item xs={3}>
-                        <Typography variant='button'>{entry.userName}</Typography>
+                    <Grid container item xs={12} style={{marginBottom: 8}}>
+                        <Grid item xs={12}>
+                            <Typography variant='subtitle2'>{entry.userName} - <Typography variant='caption'>{entry.firstName ? entry.firstName : entry.email}</Typography></Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={3} className={classes.gridItem}>
-                    <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-start'}}>
-                        <img 
-                            src={process.env.PUBLIC_URL + 'assets/' + entry.sigilLocation} 
-                            style={{width:20, paddingRight:8}} 
-                            alt={entry.factionName}
-                        />
-                        <Typography>{entry.factionName}</Typography>
-                    </div>
-                    </Grid>
-                    <Grid item xs={3} className={classes.gridItem}>
-                        <Typography variant='button'>{entry.points}{entry.win && '+(2)'}</Typography>
-                    </Grid>
-                    <Grid item xs={3} className={classes.gridItem}>
-                        <Typography variant='button'>{entry.win ? <img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:20, paddingRight:8}}/> : ''}</Typography>
+                    <Grid container item xs={12}>
+                        <Grid item xs={4} className={classes.gridItem}>
+                        <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-start'}}>
+                            <img 
+                                src={process.env.PUBLIC_URL + 'assets/' + entry.sigilLocation} 
+                                style={{width:20, paddingRight:8}} 
+                                alt={entry.factionName}
+                            />
+                            <Typography>{entry.factionName}</Typography>
+                        </div>
+                        </Grid>
+                        <Grid item xs={4} className={classes.gridItem}>
+                            <Typography variant='button'>{entry.points}{entry.win && '+(2)'}</Typography>
+                        </Grid>
+                        <Grid item xs={4} className={classes.gridItem}>
+                            <Typography variant='button'>{entry.win ? <img src={process.env.PUBLIC_URL + 'assets/throne.PNG'} style={{width:20, paddingRight:8}}/> : ''}</Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
             ))}        
