@@ -26,7 +26,7 @@ const PlayerScore = ({ players }) => {
                         expandIcon={<div style={{width:24}}/>}
                     >
                     <div className={classes.playerSummaryContainer}>
-                        <div  className={classes.picture}/>
+                        <div  className={classes.picturePlaceHolder}/>
                         <Grid item xs={12} container className={classes.pointsRow} style={{marginLeft: 8}}>
                             <Grid item xs={3} className={classes.gridItem}>
                                 <Typography variant="button">P.P.G</Typography>
@@ -107,8 +107,15 @@ const useStyles = makeStyles(theme => ({
     picture: {
         minWidth: 50,
         width: 50, 
+        minHeight: 50,
+        height: 50,
         marginRight: 8,
         borderRadius: '50%',
+    },
+    picturePlaceHolder: {
+        minWidth: 50,
+        width: 50, 
+        marginRight: 8,
     },
     playerSummaryContainer: {
         display:'flex', 
