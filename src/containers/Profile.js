@@ -46,9 +46,11 @@ const Profile = () => {
 		);
 	}
 
+	console.log(player);
+
 	return (
 		<div style={{display: 'flex', flexDirection: 'column', alignContent:'center'}}>
-			<img src={user.picture} alt="Profile" style={{borderRadius: '50%', width:124, margin: 'auto'}} />
+			<img src={player.picture} alt="Profile" style={{borderRadius: '50%', width:124, margin: 'auto'}} />
 			<Typography style={{margin:'auto'}}>{user.email}</Typography>
 			<Formik
 			initialValues={{
